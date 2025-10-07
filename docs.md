@@ -42,7 +42,7 @@ Uma aplicação web moderna e elegante para gerenciamento de tarefas com tema re
 
 | Modo Claro | Modo Escuro |
 |------------|-------------|
-| ![Modo Claro](assets/prtSc_0.png) | ![Modo Escuro](assets/prtSc_1.png) |
+| ![Modo Claro](assets/images/preview_0.png) | ![Modo Escuro](assets/images/preview_1.png) |
 
 ## 🛠️ Instalação e Uso
 
@@ -143,19 +143,17 @@ http://localhost:2005
 to-do-list-princesa/
 │
 ├── index.html                 # Arquivo principal
-├── README.md                  # Documentação
-├── assets/                    # Recursos estáticos
-│   ├── css/
-│   │   └── style.css         # Estilos (embed no HTML)
-│   ├── js/
-│   │   └── app.js            # JavaScript (embed no HTML)
-│   └── images/               # Imagens e ícones
-│       ├── favicon.ico
-│       └── preview.png
-│
-└── docs/                     # Documentação adicional
-    ├── api.md
-    └── deployment.md
+├── README.md                  # Apresentação
+├── DOC.md                     # Documentação
+└── assets/                    # 
+    ├── css/
+    │   └── style.css         # Estilos (embed no HTML)
+    ├── js/
+    │   └── app.js            # JavaScript (embed no HTML)
+    └── images/               # Imagens e ícones
+        ├── favicon.png
+        └── preview.png
+
 ```
 
 ### Arquitetura Técnica
