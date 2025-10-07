@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>To-Do List da Princesa</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
       --primary: #8a2be2;
@@ -17,6 +18,19 @@
       --success: #2ed573;
       --shadow: 0 4px 12px rgba(0,0,0,0.1);
       --transition: all 0.3s ease;
+    }
+
+    .dark-mode {
+      --primary: #bb86fc;
+      --primary-light: #9d4edd;
+      --secondary: #ff79c6;
+      --accent: #ffd700;
+      --light: #1e1e1e;
+      --dark: #f8f4ff;
+      --gray: #aaa;
+      --danger: #cf6679;
+      --success: #03dac6;
+      --shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
 
     * {
@@ -34,15 +48,20 @@
       background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
       padding: 20px;
       color: var(--dark);
+      transition: var(--transition);
+    }
+
+    body.dark-mode {
+      background: linear-gradient(135deg, #121212 0%, #2d2d2d 100%);
     }
 
     .container {
-      background: white;
+      background: var(--light);
       padding: 25px;
       border-radius: 16px;
       box-shadow: var(--shadow);
       width: 100%;
-      max-width: 500px;
+      max-width: 600px;
       margin-top: 40px;
       transition: var(--transition);
       position: relative;
@@ -59,15 +78,32 @@
       background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
     }
 
-    h2 {
-      text-align: center;
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       margin-bottom: 20px;
+    }
+
+    h2 {
       color: var(--dark);
       font-size: 1.8rem;
       display: flex;
       align-items: center;
-      justify-content: center;
       gap: 10px;
+    }
+
+    .theme-toggle {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--dark);
+      transition: var(--transition);
+    }
+
+    .theme-toggle:hover {
+      transform: rotate(30deg);
     }
 
     .input-group {
@@ -76,16 +112,18 @@
       gap: 10px;
     }
 
-    input {
+    input, .search-input {
       flex: 1;
       padding: 12px 15px;
       border: 2px solid #e0e0e0;
       border-radius: 8px;
       font-size: 1rem;
       transition: var(--transition);
+      background: var(--light);
+      color: var(--dark);
     }
 
-    input:focus {
+    input:focus, .search-input:focus {
       outline: none;
       border-color: var(--primary);
       box-shadow: 0 0 0 3px rgba(138, 43, 226, 0.2);
@@ -114,12 +152,76 @@
       transform: translateY(0);
     }
 
+    .controls {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .filter-buttons {
+      display: flex;
+      gap: 5px;
+    }
+
+    .filter-btn {
+      padding: 8px 15px;
+      background: transparent;
+      color: var(--dark);
+      border: 1px solid var(--gray);
+    }
+
+    .filter-btn.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    .search-container {
+      position: relative;
+      flex: 1;
+      max-width: 200px;
+    }
+
+    .search-input {
+      width: 100%;
+      padding-left: 35px;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray);
+    }
+
     .stats {
       display: flex;
       justify-content: space-between;
       margin-bottom: 15px;
       font-size: 0.9rem;
       color: var(--gray);
+    }
+
+    .export-import {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .export-btn, .import-btn {
+      padding: 8px 15px;
+      font-size: 0.9rem;
+    }
+
+    .import-btn {
+      background: var(--secondary);
+    }
+
+    .import-btn:hover {
+      background: #ff4da6;
     }
 
     ul {
@@ -139,31 +241,49 @@
       animation: fadeIn 0.3s ease;
       border-radius: 8px;
       margin-bottom: 8px;
-      background: #f9f9f9;
+      background: var(--light);
+      cursor: grab;
+      position: relative;
     }
 
     li:hover {
-      background: #f0f0f0;
+      background: rgba(138, 43, 226, 0.05);
       transform: translateX(5px);
+    }
+
+    li.dragging {
+      opacity: 0.5;
+      transform: rotate(5deg);
     }
 
     li.completed {
       text-decoration: line-through;
       color: var(--gray);
-      background: #f0f0f0;
       opacity: 0.8;
     }
 
-    .task-text {
+    .task-content {
       flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .task-text {
       cursor: pointer;
       padding: 5px;
       border-radius: 4px;
       transition: var(--transition);
+      word-break: break-word;
     }
 
     .task-text:hover {
       background: rgba(138, 43, 226, 0.1);
+    }
+
+    .task-date {
+      font-size: 0.7rem;
+      color: var(--gray);
+      margin-top: 5px;
     }
 
     .task-actions {
@@ -171,20 +291,31 @@
       gap: 10px;
     }
 
-    .delete {
-      color: var(--danger);
-      cursor: pointer;
+    .action-btn {
       padding: 5px 8px;
       border-radius: 4px;
       transition: var(--transition);
       display: flex;
       align-items: center;
       justify-content: center;
+      background: transparent;
+      color: var(--dark);
+      font-size: 0.9rem;
     }
 
-    .delete:hover {
+    .delete-btn:hover {
       background: rgba(255, 71, 87, 0.1);
-      transform: scale(1.1);
+      color: var(--danger);
+    }
+
+    .edit-btn:hover {
+      background: rgba(255, 215, 0, 0.1);
+      color: var(--accent);
+    }
+
+    .focus-btn:hover {
+      background: rgba(46, 213, 115, 0.1);
+      color: var(--success);
     }
 
     .empty-state {
@@ -198,10 +329,51 @@
       display: block;
     }
 
-    .empty-state img {
-      width: 100px;
+    .empty-state i {
+      font-size: 3rem;
       margin-bottom: 15px;
       opacity: 0.7;
+    }
+
+    .focus-mode {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      backdrop-filter: blur(5px);
+    }
+
+    .focus-task {
+      background: white;
+      padding: 30px;
+      border-radius: 16px;
+      max-width: 500px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .focus-task h3 {
+      margin-bottom: 20px;
+      color: var(--dark);
+    }
+
+    .focus-task p {
+      margin-bottom: 30px;
+      font-size: 1.2rem;
+      line-height: 1.5;
+    }
+
+    .focus-actions {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
     }
 
     @keyframes fadeIn {
@@ -217,6 +389,20 @@
 
     .bounce {
       animation: bounce 0.6s;
+    }
+
+    @keyframes confetti {
+      0% { transform: translateY(0) rotate(0); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+
+    .confetti {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      background: var(--primary);
+      opacity: 0;
+      z-index: 1001;
     }
 
     @media (max-width: 480px) {
@@ -237,18 +423,60 @@
         width: 100%;
         justify-content: center;
       }
+      
+      .controls {
+        flex-direction: column;
+      }
+      
+      .filter-buttons {
+        justify-content: center;
+      }
+      
+      .search-container {
+        max-width: 100%;
+      }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h2>👑 To-Do List da Princesa</h2>
+    <div class="header">
+      <h2><i class="fas fa-crown"></i> To-Do List da Princesa</h2>
+      <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
+        <i class="fas fa-moon"></i>
+      </button>
+    </div>
     
     <div class="input-group">
       <input type="text" id="taskInput" placeholder="Adicione uma nova tarefa real..." aria-label="Nova tarefa">
       <button onclick="addTask()" id="addButton">
+        <i class="fas fa-plus"></i>
         <span>Adicionar</span>
       </button>
+    </div>
+    
+    <div class="search-container">
+      <i class="fas fa-search search-icon"></i>
+      <input type="text" class="search-input" id="searchInput" placeholder="Buscar tarefas...">
+    </div>
+    
+    <div class="controls">
+      <div class="filter-buttons">
+        <button class="filter-btn active" onclick="setFilter('all')">Todas</button>
+        <button class="filter-btn" onclick="setFilter('active')">Ativas</button>
+        <button class="filter-btn" onclick="setFilter('completed')">Concluídas</button>
+      </div>
+      
+      <div class="export-import">
+        <button class="export-btn" onclick="exportTasks()">
+          <i class="fas fa-download"></i>
+          <span>Exportar</span>
+        </button>
+        <button class="import-btn" onclick="importTasks()">
+          <i class="fas fa-upload"></i>
+          <span>Importar</span>
+        </button>
+      </div>
     </div>
     
     <div class="stats">
@@ -259,27 +487,42 @@
     <ul id="taskList"></ul>
     
     <div class="empty-state" id="emptyState">
-      <div>✨</div>
+      <i class="fas fa-magic"></i>
       <p>Nenhuma tarefa real por aqui!</p>
       <p>Adicione suas primeiras tarefas acima.</p>
     </div>
   </div>
 
   <script>
-    // tarefas em localStorage 
+    // Variáveis globais
+    let currentFilter = 'all';
+    let dragSrcEl = null;
+    
+    // Carregar tarefas do localStorage ao iniciar
     document.addEventListener('DOMContentLoaded', function() {
       loadTasks();
       updateStats();
       
-      
+      // Adicionar tarefa ao pressionar Enter
       document.getElementById('taskInput').addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
           addTask();
         }
       });
+      
+      // Buscar tarefas
+      document.getElementById('searchInput').addEventListener('input', function() {
+        filterTasks();
+      });
+      
+      // Inicializar drag and drop
+      initDragAndDrop();
+      
+      // Carregar tema
+      loadTheme();
     });
 
-    
+    // Tarefas iniciais com tema de princesa
     const initialTasks = [
       "Dar nomes novos pra cada um dos ratinhos 🐭💙",
       "Escrever novas histórias sobre Maui… e revisar as partes em que ele 'exagera'",
@@ -296,24 +539,32 @@
       const savedTasks = localStorage.getItem('princessTasks');
       
       if (savedTasks) {
-        
+        // Carregar tarefas salvas
         taskList.innerHTML = savedTasks;
+        // Reaplicar eventos
+        document.querySelectorAll('.task-text').forEach(el => {
+          el.addEventListener('click', function() { toggleTask(this); });
+        });
+        document.querySelectorAll('.delete-btn').forEach(el => {
+          el.addEventListener('click', function() { deleteTask(this); });
+        });
+        document.querySelectorAll('.edit-btn').forEach(el => {
+          el.addEventListener('click', function() { editTask(this); });
+        });
+        document.querySelectorAll('.focus-btn').forEach(el => {
+          el.addEventListener('click', function() { focusTask(this); });
+        });
       } else {
-        
+        // Carregar tarefas iniciais
         initialTasks.forEach(task => {
-          const li = document.createElement('li');
-          li.innerHTML = `
-            <span class="task-text" onclick="toggleTask(this)">${task}</span>
-            <div class="task-actions">
-              <span class="delete" onclick="deleteTask(this)" aria-label="Excluir tarefa">✖</span>
-            </div>
-          `;
-          taskList.appendChild(li);
+          addTaskElement(task, false, new Date().toISOString());
         });
         saveTasks();
       }
       
       updateEmptyState();
+      filterTasks();
+      initDragAndDrop();
     }
 
     function addTask() {
@@ -325,35 +576,84 @@
         return;
       }
 
-      const li = document.createElement('li');
-      li.innerHTML = `
-        <span class="task-text" onclick="toggleTask(this)">${taskText}</span>
-        <div class="task-actions">
-          <span class="delete" onclick="deleteTask(this)" aria-label="Excluir tarefa">✖</span>
-        </div>
-      `;
-
-      document.getElementById('taskList').appendChild(li);
+      addTaskElement(taskText, false, new Date().toISOString());
       input.value = "";
       input.focus();
-      
-      // Efeito visual ao adicionar
-      li.classList.add('bounce');
-      setTimeout(() => li.classList.remove('bounce'), 600);
       
       saveTasks();
       updateStats();
       updateEmptyState();
+      filterTasks();
+      
+      // Som de adição
+      playSound('add');
+    }
+
+    function addTaskElement(taskText, completed, createdAt) {
+      const taskList = document.getElementById('taskList');
+      const li = document.createElement('li');
+      li.setAttribute('draggable', 'true');
+      li.dataset.createdAt = createdAt;
+      
+      const date = new Date(createdAt);
+      const formattedDate = `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`;
+      
+      li.innerHTML = `
+        <div class="task-content">
+          <span class="task-text">${taskText}</span>
+          <span class="task-date">Criada em: ${formattedDate}</span>
+        </div>
+        <div class="task-actions">
+          <button class="action-btn focus-btn" aria-label="Modo foco">
+            <i class="fas fa-bullseye"></i>
+          </button>
+          <button class="action-btn edit-btn" aria-label="Editar tarefa">
+            <i class="fas fa-edit"></i>
+          </button>
+          <button class="action-btn delete-btn" aria-label="Excluir tarefa">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+      `;
+      
+      if (completed) {
+        li.classList.add('completed');
+      }
+      
+      taskList.appendChild(li);
+      
+      // Adicionar eventos
+      li.querySelector('.task-text').addEventListener('click', function() { toggleTask(this); });
+      li.querySelector('.delete-btn').addEventListener('click', function() { deleteTask(this); });
+      li.querySelector('.edit-btn').addEventListener('click', function() { editTask(this); });
+      li.querySelector('.focus-btn').addEventListener('click', function() { focusTask(this); });
+      
+      // Efeito visual ao adicionar
+      li.classList.add('bounce');
+      setTimeout(() => li.classList.remove('bounce'), 600);
     }
 
     function toggleTask(element) {
-      const li = element.parentElement;
+      const li = element.closest('li');
       li.classList.toggle('completed');
       saveTasks();
       updateStats();
+      filterTasks();
+      
+      // Som de conclusão
+      if (li.classList.contains('completed')) {
+        playSound('complete');
+        createConfetti();
+      } else {
+        playSound('undo');
+      }
     }
 
     function deleteTask(element) {
+      if (!confirm("Tem certeza que deseja excluir esta tarefa?")) {
+        return;
+      }
+      
       const li = element.closest('li');
       li.style.opacity = '0';
       li.style.transform = 'translateX(50px)';
@@ -363,7 +663,276 @@
         saveTasks();
         updateStats();
         updateEmptyState();
+        filterTasks();
       }, 300);
+      
+      // Som de exclusão
+      playSound('delete');
+    }
+
+    function editTask(element) {
+      const li = element.closest('li');
+      const taskText = li.querySelector('.task-text');
+      const currentText = taskText.textContent;
+      
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.value = currentText;
+      input.classList.add('edit-input');
+      
+      taskText.replaceWith(input);
+      input.focus();
+      
+      function saveEdit() {
+        const newText = input.value.trim();
+        if (newText !== "" && newText !== currentText) {
+          const newTaskText = document.createElement('span');
+          newTaskText.classList.add('task-text');
+          newTaskText.textContent = newText;
+          newTaskText.addEventListener('click', function() { toggleTask(this); });
+          
+          input.replaceWith(newTaskText);
+          saveTasks();
+          
+          // Som de edição
+          playSound('edit');
+        } else {
+          const oldTaskText = document.createElement('span');
+          oldTaskText.classList.add('task-text');
+          oldTaskText.textContent = currentText;
+          oldTaskText.addEventListener('click', function() { toggleTask(this); });
+          
+          input.replaceWith(oldTaskText);
+        }
+      }
+      
+      input.addEventListener('blur', saveEdit);
+      input.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          saveEdit();
+        }
+      });
+    }
+
+    function focusTask(element) {
+      const li = element.closest('li');
+      const taskText = li.querySelector('.task-text').textContent;
+      
+      const focusMode = document.createElement('div');
+      focusMode.classList.add('focus-mode');
+      focusMode.innerHTML = `
+        <div class="focus-task">
+          <h3>Modo Foco</h3>
+          <p>${taskText}</p>
+          <div class="focus-actions">
+            <button onclick="completeFocusedTask(this)" class="action-btn">
+              <i class="fas fa-check"></i> Concluir
+            </button>
+            <button onclick="closeFocusMode()" class="action-btn">
+              <i class="fas fa-times"></i> Fechar
+            </button>
+          </div>
+        </div>
+      `;
+      
+      document.body.appendChild(focusMode);
+      
+      // Som de modo foco
+      playSound('focus');
+    }
+
+    function completeFocusedTask(element) {
+      const focusMode = element.closest('.focus-mode');
+      const taskText = focusMode.querySelector('p').textContent;
+      
+      // Encontrar a tarefa correspondente e marcá-la como concluída
+      document.querySelectorAll('#taskList li').forEach(li => {
+        if (li.querySelector('.task-text').textContent === taskText) {
+          li.classList.add('completed');
+        }
+      });
+      
+      closeFocusMode();
+      saveTasks();
+      updateStats();
+      filterTasks();
+      
+      // Som de conclusão
+      playSound('complete');
+      createConfetti();
+    }
+
+    function closeFocusMode() {
+      const focusMode = document.querySelector('.focus-mode');
+      if (focusMode) {
+        focusMode.remove();
+      }
+    }
+
+    function setFilter(filter) {
+      currentFilter = filter;
+      
+      // Atualizar botões ativos
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      event.target.classList.add('active');
+      
+      filterTasks();
+    }
+
+    function filterTasks() {
+      const searchText = document.getElementById('searchInput').value.toLowerCase();
+      const tasks = document.querySelectorAll('#taskList li');
+      
+      tasks.forEach(task => {
+        const taskText = task.querySelector('.task-text').textContent.toLowerCase();
+        const isCompleted = task.classList.contains('completed');
+        const matchesSearch = taskText.includes(searchText);
+        
+        let shouldShow = matchesSearch;
+        
+        if (currentFilter === 'active') {
+          shouldShow = shouldShow && !isCompleted;
+        } else if (currentFilter === 'completed') {
+          shouldShow = shouldShow && isCompleted;
+        }
+        
+        task.style.display = shouldShow ? 'flex' : 'none';
+      });
+      
+      updateEmptyState();
+    }
+
+    function initDragAndDrop() {
+      const tasks = document.querySelectorAll('#taskList li');
+      
+      tasks.forEach(task => {
+        task.addEventListener('dragstart', handleDragStart);
+        task.addEventListener('dragover', handleDragOver);
+        task.addEventListener('dragenter', handleDragEnter);
+        task.addEventListener('dragleave', handleDragLeave);
+        task.addEventListener('drop', handleDrop);
+        task.addEventListener('dragend', handleDragEnd);
+      });
+    }
+
+    function handleDragStart(e) {
+      dragSrcEl = this;
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/html', this.innerHTML);
+      this.classList.add('dragging');
+    }
+
+    function handleDragOver(e) {
+      if (e.preventDefault) {
+        e.preventDefault();
+      }
+      e.dataTransfer.dropEffect = 'move';
+      return false;
+    }
+
+    function handleDragEnter(e) {
+      this.classList.add('over');
+    }
+
+    function handleDragLeave(e) {
+      this.classList.remove('over');
+    }
+
+    function handleDrop(e) {
+      if (e.stopPropagation) {
+        e.stopPropagation();
+      }
+      
+      if (dragSrcEl !== this) {
+        dragSrcEl.innerHTML = this.innerHTML;
+        this.innerHTML = e.dataTransfer.getData('text/html');
+        
+        // Reaplicar eventos
+        this.querySelector('.task-text').addEventListener('click', function() { toggleTask(this); });
+        this.querySelector('.delete-btn').addEventListener('click', function() { deleteTask(this); });
+        this.querySelector('.edit-btn').addEventListener('click', function() { editTask(this); });
+        this.querySelector('.focus-btn').addEventListener('click', function() { focusTask(this); });
+        
+        dragSrcEl.querySelector('.task-text').addEventListener('click', function() { toggleTask(this); });
+        dragSrcEl.querySelector('.delete-btn').addEventListener('click', function() { deleteTask(this); });
+        dragSrcEl.querySelector('.edit-btn').addEventListener('click', function() { editTask(this); });
+        dragSrcEl.querySelector('.focus-btn').addEventListener('click', function() { focusTask(this); });
+        
+        saveTasks();
+        
+        // Som de reorganização
+        playSound('reorder');
+      }
+      
+      return false;
+    }
+
+    function handleDragEnd(e) {
+      document.querySelectorAll('#taskList li').forEach(task => {
+        task.classList.remove('over');
+        task.classList.remove('dragging');
+      });
+    }
+
+    function exportTasks() {
+      const tasks = [];
+      document.querySelectorAll('#taskList li').forEach(li => {
+        tasks.push({
+          text: li.querySelector('.task-text').textContent,
+          completed: li.classList.contains('completed'),
+          createdAt: li.dataset.createdAt
+        });
+      });
+      
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(tasks));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", "tarefas_princesa.json");
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+      
+      // Som de exportação
+      playSound('export');
+    }
+
+    function importTasks() {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = '.json';
+      
+      input.onchange = e => {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        
+        reader.onload = function(event) {
+          try {
+            const tasks = JSON.parse(event.target.result);
+            const taskList = document.getElementById('taskList');
+            taskList.innerHTML = '';
+            
+            tasks.forEach(task => {
+              addTaskElement(task.text, task.completed, task.createdAt);
+            });
+            
+            saveTasks();
+            updateStats();
+            updateEmptyState();
+            filterTasks();
+            
+            // Som de importação
+            playSound('import');
+          } catch (error) {
+            alert("Erro ao importar tarefas. Verifique se o arquivo é válido.");
+          }
+        };
+        
+        reader.readAsText(file);
+      };
+      
+      input.click();
     }
 
     function saveTasks() {
@@ -381,14 +950,78 @@
 
     function updateEmptyState() {
       const emptyState = document.getElementById('emptyState');
-      const totalTasks = document.querySelectorAll('#taskList li').length;
+      const visibleTasks = document.querySelectorAll('#taskList li[style="display: flex;"]').length;
+      const searchText = document.getElementById('searchInput').value;
       
-      if (totalTasks === 0) {
+      if (visibleTasks === 0 && searchText === "") {
+        emptyState.classList.add('show');
+      } else if (visibleTasks === 0 && searchText !== "") {
+        emptyState.innerHTML = `
+          <i class="fas fa-search"></i>
+          <p>Nenhuma tarefa encontrada para "${searchText}"</p>
+          <p>Tente alterar os termos da busca.</p>
+        `;
         emptyState.classList.add('show');
       } else {
         emptyState.classList.remove('show');
       }
     }
+
+    function loadTheme() {
+      const isDarkMode = localStorage.getItem('princessDarkMode') === 'true';
+      
+      if (isDarkMode) {
+        document.body.classList.add('dark-mode');
+        document.getElementById('themeToggle').innerHTML = '<i class="fas fa-sun"></i>';
+      }
+    }
+
+    function toggleTheme() {
+      const body = document.body;
+      const themeToggle = document.getElementById('themeToggle');
+      
+      body.classList.toggle('dark-mode');
+      
+      if (body.classList.contains('dark-mode')) {
+        themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        localStorage.setItem('princessDarkMode', 'true');
+      } else {
+        themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+        localStorage.setItem('princessDarkMode', 'false');
+      }
+      
+      // Som de alternância de tema
+      playSound('theme');
+    }
+
+    function playSound(type) {
+      // Em um ambiente real, você usaria arquivos de áudio
+      // Aqui estamos apenas simulando com logs
+      console.log(`Tocando som: ${type}`);
+    }
+
+    function createConfetti() {
+      for (let i = 0; i < 50; i++) {
+        const confetti = document.createElement('div');
+        confetti.classList.add('confetti');
+        confetti.style.left = Math.random() * 100 + 'vw';
+        confetti.style.background = getRandomColor();
+        confetti.style.animation = `confetti ${Math.random() * 3 + 2}s linear forwards`;
+        document.body.appendChild(confetti);
+        
+        setTimeout(() => {
+          confetti.remove();
+        }, 5000);
+      }
+    }
+
+    function getRandomColor() {
+      const colors = ['#8a2be2', '#ff69b4', '#ffd700', '#2ed573', '#ff4757', '#8ec5fc'];
+      return colors[Math.floor(Math.random() * colors.length)];
+    }
+
+    // Adicionar evento ao botão de tema
+    document.getElementById('themeToggle').addEventListener('click', toggleTheme);
   </script>
 </body>
 </html>
