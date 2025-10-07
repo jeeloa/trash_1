@@ -4,23 +4,7 @@
 
 Uma aplicação web moderna e elegante para gerenciamento de tarefas com tema real, desenvolvida com HTML, CSS e JavaScript puro.
 
-![Preview](https://img.shields.io/badge/Status-✨%20Pronta%20para%20uso-brightgreen)
-![Tecnologias](https://img.shields.io/badge/Tecnologias-HTML%2C%20CSS%2C%20JavaScript-blue)
-![Licença](https://img.shields.io/badge/Licença-MIT-green)
 
-## 📋 Índice
-
-- [✨ Características](#-características)
-- [🚀 Demonstração](#-demonstração)
-- [🛠️ Instalação e Uso](#️-instalação-e-uso)
-- [🎯 Funcionalidades](#-funcionalidades)
-- [🏗️ Estrutura do Projeto](#️-estrutura-do-projeto)
-- [🎨 Personalização](#-personalização)
-- [📱 Responsividade](#-responsividade)
-- [🔧 Desenvolvimento](#-desenvolvimento)
-- [🤝 Contribuindo](#-contribuindo)
-- [📄 Licença](#-licença)
-- [👥 Autores](#-autores)
 
 ## ✨ Características
 
