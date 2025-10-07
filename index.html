@@ -63,7 +63,8 @@
       display: flex;
       justify-content: space-between;
       padding: 12px;
-      border-bottom: 1px solid #ddd;
+      border-top: 1px solid #ddd;
+      border-bottom: 1px solid #dddddddc;
     }
 
     li.completed {
@@ -83,43 +84,32 @@
     <h2>📋 To-Do List de uma Princesa</h2>
     <input type="text" id="taskInput" placeholder="Nova tarefa...">
     <button onclick="addTask()">Adicionar</button>
-    <ul id="taskList">
-        <ul id="taskList"><li>
-
-        
+    <ul id="taskList"> 
+      <li>
         <span onclick="toggleTask(this)">dar nomes novos pra cada um dos ratinhos  🐭💙</span>
-        <span class="delete" onclick="deleteTask(this)">✖</span>
-      </li><li>
-        <span onclick="toggleTask(this)"></span>
-        <span class="delete" onclick="deleteTask(this)">✖</span>
-      </li><li>
+        <span class="delete" onclick="deleteTask(this)">✖</span></li>
+      <li>
+        <span onclick="toggleTask(this)">Escrever novas histórias sobre Maui… e revisar as partes em que ele “exagera”</span>
+        <span class="delete" onclick="deleteTask(this)">✖</span></li>
+      <li>
         <span onclick="toggleTask(this)">Visitar a Fada Madrinha e agradecer por tudo...</span>
-        <span class="delete" onclick="deleteTask(this)">✖</span>
-      </li><li>
+        <span class="delete" onclick="deleteTask(this)">✖</span></li>
+      <li>
         <span onclick="toggleTask(this)">Escovar o cabelo até o Pascal se cansar de contar 🦎💁‍♀️</span>
-        <span class="delete" onclick="deleteTask(this)">✖</span>
-      </li><li>
+        <span class="delete" onclick="deleteTask(this)">✖</span></li>
+      <li>
         <span onclick="toggleTask(this)">Levar a Luna a passear (minha rottweiler)</span>
         <span class="delete" onclick="deleteTask(this)">✖</span>
-      </li><li>
-        <span onclick="toggleTask(this)">Estudar React Suspense</span>
-        <span class="delete" onclick="deleteTask(this)">✖</span>
-      </li><li>
-        <span onclick="toggleTask(this)"></span>
-        <span class="delete" onclick="deleteTask(this)">✖</span>
-      </li><li>
-        <span onclick="toggleTask(this)">Acabar de ler o livro <em>"A  Seleção"</em> </span>
-        <span class="delete" onclick="deleteTask(this)">✖</span>
-      </li><li>
-        <span onclick="toggleTask(this)">Preparar o jantar</span>
-        <span class="delete" onclick="deleteTask(this)">✖</span>
-      </li><li>
-        <span onclick="toggleTask(this)"></span>
-        <span class="delete" onclick="deleteTask(this)">✖</span>
-      </li><li>
-        <span onclick="toggleTask(this)"></span>
-        <span class="delete" onclick="deleteTask(this)">✖</span>
-      </li></ul>
+      </li>
+      <li>
+        <span onclick="toggleTask(this)">Revisar documentos reais sem congelar a caneta</span>
+        <span class="delete" onclick="deleteTask(this)">✖</span></li>
+      <li>
+        <span onclick="toggleTask(this)">Ajudar Charlotte a escolher vestido pra mais um baile <em>“sem motivo”</em> 👗🐸</span>
+        <span class="delete" onclick="deleteTask(this)">✖</span></li>
+      <li>
+        <span onclick="toggleTask(this)">Parar com o hábito de comer comidas de estranhos que batem a porta 🍎❄️</span>
+        <span class="delete" onclick="deleteTask(this)">✖</span></li>
     </ul>
   </div>
 
