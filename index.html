@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>To-Do List</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #f4f4f4;
+    }
+
+    .container {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      width: 300px;
+    }
+
+    h2, input, button {
+        margin: 1rem;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    input {
+      width: 70%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+    }
+
+    button {
+      padding: 8px 12px;
+      border: none;
+      border-radius: 6px;
+      background: #4CAF50;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #45a049;
+    }
+
+    
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin-top: 15px;
+    }
+
+    li {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    li.completed {
+      text-decoration: line-through;
+      color: gray;
+    }
+
+    .delete {
+      color: red;
+      cursor: pointer;
+      padding: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>📋 To-Do List de uma Princesa</h2>
+    <input type="text" id="taskInput" placeholder="Nova tarefa...">
+    <button onclick="addTask()">Adicionar</button>
+    <ul id="taskList">
+        <ul id="taskList"><li>
+
+        
+        <span onclick="toggleTask(this)">dar nomes novos pra cada um dos ratinhos  🐭💙</span>
+        <span class="delete" onclick="deleteTask(this)">✖</span>
+      </li><li>
+        <span onclick="toggleTask(this)"></span>
+        <span class="delete" onclick="deleteTask(this)">✖</span>
+      </li><li>
+        <span onclick="toggleTask(this)">Visitar a Fada Madrinha e agradecer por tudo...</span>
+        <span class="delete" onclick="deleteTask(this)">✖</span>
+      </li><li>
+        <span onclick="toggleTask(this)">Escovar o cabelo até o Pascal se cansar de contar 🦎💁‍♀️</span>
+        <span class="delete" onclick="deleteTask(this)">✖</span>
+      </li><li>
+        <span onclick="toggleTask(this)">Levar a Luna a passear (minha rottweiler)</span>
+        <span class="delete" onclick="deleteTask(this)">✖</span>
+      </li><li>
+        <span onclick="toggleTask(this)">Estudar React Suspense</span>
+        <span class="delete" onclick="deleteTask(this)">✖</span>
+      </li><li>
+        <span onclick="toggleTask(this)"></span>
+        <span class="delete" onclick="deleteTask(this)">✖</span>
+      </li><li>
+        <span onclick="toggleTask(this)">Acabar de ler o livro <em>"A  Seleção"</em> </span>
+        <span class="delete" onclick="deleteTask(this)">✖</span>
+      </li><li>
+        <span onclick="toggleTask(this)">Preparar o jantar</span>
+        <span class="delete" onclick="deleteTask(this)">✖</span>
+      </li><li>
+        <span onclick="toggleTask(this)"></span>
+        <span class="delete" onclick="deleteTask(this)">✖</span>
+      </li><li>
+        <span onclick="toggleTask(this)"></span>
+        <span class="delete" onclick="deleteTask(this)">✖</span>
+      </li></ul>
+    </ul>
+  </div>
+
+  <script>
+    function addTask() {
+      const input = document.getElementById("taskInput");
+      const taskText = input.value.trim();
+
+      if (taskText === "") return;
+
+      const li = document.createElement("li");
+      li.innerHTML = `
+        <span onclick="toggleTask(this)">${taskText}</span>
+        <span class="delete" onclick="deleteTask(this)">✖</span>
+      `;
+
+      document.getElementById("taskList").appendChild(li);
+      input.value = "";
+    }
+
+    function toggleTask(element) {
+      element.parentElement.classList.toggle("completed");
+    }
+
+    function deleteTask(element) {
+      element.parentElement.remove();
+    }
+  </script>
+</body>
+</html>
