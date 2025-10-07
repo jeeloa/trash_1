@@ -36,5 +36,5 @@ A pagina destaca-se profisionalmente por apresenter:
 #
 * [Ver](https://jeeloa.github.io/trash_1/) Agora
 
-* [Editar Instantaneamente]() no Codepen
+* [Editar Instantaneamente](https://codepen.io/jeeloa/full/yyeMGOq) no Codepen
 

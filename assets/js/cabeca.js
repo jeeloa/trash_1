@@ -2,35 +2,35 @@
 
 
 
-// Variáveis globais
+
 let currentFilter = 'all';
 let dragSrcEl = null;
 
-// Carregar tarefas do localStorage ao iniciar
+
 document.addEventListener('DOMContentLoaded', function() {
     loadTasks();
     updateStats();
     
-    // Adicionar tarefa ao pressionar Enter
+    
     document.getElementById('taskInput').addEventListener('keypress', function(e) {
     if (e.key === 'Enter') {
         addTask();
     }
     });
     
-    // Buscar tarefas
+    
     document.getElementById('searchInput').addEventListener('input', function() {
     filterTasks();
     });
     
-    // Inicializar drag and drop
+    
     initDragAndDrop();
     
-    // Carregar tema
+    
     loadTheme();
 });
 
-// Tarefas iniciais com tema de princesa
+
 const initialTasks = [
     "Dar nomes novos pra cada um dos ratinhos 🐭💙",
     "Escrever novas histórias sobre Maui… e revisar as partes em que ele 'exagera'",
@@ -47,7 +47,7 @@ function loadTasks() {
     const savedTasks = localStorage.getItem('princessTasks');
     
     if (savedTasks) {
-    // Carregar tarefas salvas
+    
     taskList.innerHTML = savedTasks;
     // Reaplicar eventos
     document.querySelectorAll('.task-text').forEach(el => {
@@ -93,7 +93,7 @@ function addTask() {
     updateEmptyState();
     filterTasks();
     
-    // Som de adição
+    
     playSound('add');
 }
 
@@ -130,13 +130,13 @@ function addTaskElement(taskText, completed, createdAt) {
     
     taskList.appendChild(li);
     
-    // Adicionar eventos
+    
     li.querySelector('.task-text').addEventListener('click', function() { toggleTask(this); });
     li.querySelector('.delete-btn').addEventListener('click', function() { deleteTask(this); });
     li.querySelector('.edit-btn').addEventListener('click', function() { editTask(this); });
     li.querySelector('.focus-btn').addEventListener('click', function() { focusTask(this); });
     
-    // Efeito visual ao adicionar
+    
     li.classList.add('bounce');
     setTimeout(() => li.classList.remove('bounce'), 600);
 }
@@ -148,7 +148,7 @@ function toggleTask(element) {
     updateStats();
     filterTasks();
     
-    // Som de conclusão
+    
     if (li.classList.contains('completed')) {
     playSound('complete');
     createConfetti();
@@ -174,7 +174,7 @@ function deleteTask(element) {
     filterTasks();
     }, 300);
     
-    // Som de exclusão
+    
     playSound('delete');
 }
 
@@ -253,7 +253,7 @@ function completeFocusedTask(element) {
     const focusMode = element.closest('.focus-mode');
     const taskText = focusMode.querySelector('p').textContent;
     
-    // Encontrar a tarefa correspondente e marcá-la como concluída
+    
     document.querySelectorAll('#taskList li').forEach(li => {
     if (li.querySelector('.task-text').textContent === taskText) {
         li.classList.add('completed');
@@ -265,7 +265,7 @@ function completeFocusedTask(element) {
     updateStats();
     filterTasks();
     
-    // Som de conclusão
+    
     playSound('complete');
     createConfetti();
 }
@@ -280,7 +280,7 @@ function closeFocusMode() {
 function setFilter(filter) {
     currentFilter = filter;
     
-    // Atualizar botões ativos
+    
     document.querySelectorAll('.filter-btn').forEach(btn => {
     btn.classList.remove('active');
     });
@@ -357,7 +357,7 @@ function handleDrop(e) {
     dragSrcEl.innerHTML = this.innerHTML;
     this.innerHTML = e.dataTransfer.getData('text/html');
     
-    // Reaplicar eventos
+    
     this.querySelector('.task-text').addEventListener('click', function() { toggleTask(this); });
     this.querySelector('.delete-btn').addEventListener('click', function() { deleteTask(this); });
     this.querySelector('.edit-btn').addEventListener('click', function() { editTask(this); });
@@ -370,7 +370,7 @@ function handleDrop(e) {
     
     saveTasks();
     
-    // Som de reorganização
+    
     playSound('reorder');
     }
     
@@ -402,7 +402,7 @@ function exportTasks() {
     downloadAnchor.click();
     downloadAnchor.remove();
     
-    // Som de exportação
+    
     playSound('export');
 }
 
@@ -430,7 +430,7 @@ function importTasks() {
         updateEmptyState();
         filterTasks();
         
-        // Som de importação
+        
         playSound('import');
         } catch (error) {
         alert("Erro ao importar tarefas. Verifique se o arquivo é válido.");
@@ -498,13 +498,12 @@ function toggleTheme() {
     localStorage.setItem('princessDarkMode', 'false');
     }
     
-    // Som de alternância de tema
+    
     playSound('theme');
 }
 
 function playSound(type) {
-    // Em um ambiente real, você usaria arquivos de áudio
-    // Aqui estamos apenas simulando com logs
+
     console.log(`Tocando som: ${type}`);
 }
 
@@ -528,5 +527,5 @@ function getRandomColor() {
     return colors[Math.floor(Math.random() * colors.length)];
 }
 
-// Adicionar evento ao botão de tema
+
 document.getElementById('themeToggle').addEventListener('click', toggleTheme);
